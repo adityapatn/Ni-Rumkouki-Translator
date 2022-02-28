@@ -4,10 +4,15 @@ import { StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, P
 import { Button, Text, Input } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import translateNiRumkouki from './NiRumkoukiScript';
+import * as Clipboard from 'expo-clipboard';
 
 export default function App() {
   const [translatedText, setTranslatedText] = useState("English/Ni Rumkouki Text will appear here")
   const [preTranslatedText, setPreTranslatedText] = useState("default value")
+
+  const copyToClipboard = () => {
+    Clipboard.setString(translatedText);
+  };
 
   const translate = () => {
     setTranslatedText(translateNiRumkouki(preTranslatedText));
@@ -44,10 +49,10 @@ export default function App() {
             />
             <Input 
               multiline={true}
-              numberOfLines={4}
+              numberOfLines={8}
               placeholder="Enter Ni Rumkouki/English Text"
               containerStyle={{ height: 200, textAlignVertical: 'top', borderWidth: 1, width: 300, }}
-              inputContainerStyle={{borderBottomWidth:0}}
+              inputContainerStyle={{borderBottomWidth:0, }}
               value={preTranslatedText}
               onChangeText={setPreTranslatedText}
             />
@@ -69,12 +74,11 @@ export default function App() {
             />
             <Text
               placeholder="English/Ni Rumkouki Text will appear here"
-              multiline={true}
-              numberOfLines={4}
               style={{ height: 200, textAlignVertical: 'top', borderWidth: 1, width: 300, fontSize: 18, padding: 5}}
               inputContainerStyle={{borderBottomWidth:0}}
             >{translatedText}</Text>
             <Button
+              onPress = {copyToClipboard}
               title={'Copy Text'}
               containerStyle={{
                 width: 300,
